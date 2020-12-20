@@ -39,8 +39,6 @@ def save_frame(meaning, video_root, start, end):
     image = np.asarray(image, dtype="int32") #img.shape: (256, 256, 3)
     image = np.transpose(image, (2, 0, 1)).astype(np.float32) #img.shape: (3, 256, 256)
     frames = np.array([image])
-    print(frames.shape)
-    input()
     labels = [10]
 
     counter = 1
@@ -60,11 +58,12 @@ def save_frame(meaning, video_root, start, end):
         break
       counter += 1
 
-    labels = np.array([labels])
-    print(labels.shape)
-    input()
+    labels = np.expand_dims(np.array(labels), axis=1)
     X_path = f"{SAVE_DATA_PATH}/{meaning}/{video_root}/{video_root}_{direction}/x.npy"
     Y_path = f"{SAVE_DATA_PATH}/{meaning}/{video_root}/{video_root}_{direction}/y.npy"
+
+    np.save(X_path, frames)
+    np.save(Y_path, labels)
 
     video.release()
   # cv2.destroyAllWindows()

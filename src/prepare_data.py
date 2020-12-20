@@ -14,10 +14,12 @@ SYN_DATA_PATH = '../hackathon_data_3000/SYN(1500)/'
 REAL_DATA_VIDEO_PATH = '../hackathon_data_3000/REAL(1500)/0.REAL_VIDEO/'
 REAL_DATA_WORD_META_PATH = '../hackathon_data_3000/REAL(1500)/REAL_WORD_morpheme/'
 REAL_DATA_SENTENCE_META_PATH = '../hackathon_data_3000/REAL(1500)/REAL_SENTENCE_morpheme/'
+
 TOP_N = 10
+TARGET_DATA_PATH = REAL_DATA_PATH
 
 info = {} #{'NIA_SL_WORD0024_REAL02': [2.238, 4.063, '학교연혁'], '...'}
-for file in glob.glob(REAL_DATA_PATH+'*_morpheme/'+'*.json'):
+for file in glob.glob(TARGET_DATA_PATH+'*_morpheme/'+'*.json'):
   with open(file) as json_file:
     data = json.load(json_file)
     video_name = data["metaData"]["name"] #NIA_SL_WORD0024_REAL02_D.mp4
