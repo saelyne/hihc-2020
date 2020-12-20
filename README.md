@@ -2,10 +2,8 @@
 Sign language recognition, Team Waffle
 
 ## Usage
-### Set up
-1. Include `hackathon_data_3000` folder in the root
-
 ### Training
+0. Include `hackathon_data_3000` folder in the root
 1. run `prepare_data.py`.
 - Adjust `TOP_N` to your target number of classes. Currently set to 10.
 - Currently only using real data from `REAL_DATA_PATH`. Change `TARGET_DATA_PATH` to `SYN_DATA_PATH` if you want to train with synthesized vidoes.
