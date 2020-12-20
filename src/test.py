@@ -39,7 +39,7 @@ args = vars(ap.parse_args())
 # load the trained model and label binarizer from disk
 # print('Loading model and label binarizer...')
 # lb = joblib.load(args['label_bin'])
-model = MultiStageModel(4, 10, 64, 3364, 10).cuda()
+model = MultiStageModel(4, 10, 64, 3364, 11).cuda()
 print('Model Loaded...')
 model.load_state_dict(torch.load(args['model']))
 print('Loaded model state_dict...')

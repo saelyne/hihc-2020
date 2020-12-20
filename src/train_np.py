@@ -21,9 +21,9 @@ from msm import MultiStageModel
 # learning_parameters 
 lr = 1e-3
 batch_size = 1
-num_classes = 10
+num_classes = 11
 num_epochs = 50
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = 'cpu'#torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print(f"Computation device: {device}\n")
 
 # construct the argument parser
@@ -56,34 +56,63 @@ class VideoDataset(Dataset):
   def __getitem__(self, i):
     info = self.X[i]
     file_path_root = info[0]
-    file_count = int(info[1])
     x_path = file_path_root + 'x.npy'
     y_path = file_path_root + 'y.npy'
     X = np.load(x_path)
     Y = np.load(y_path)
-    print(file_count, X.shape, Y.shape)
 
-    X_fin = torch.from_numpy(X).float()
-    Y_fin = torch.LongTensor(Y)
+    start = -1
+    end = -1
+    for i in range(Y.shape[0]):
+      if start == -1:
+        if Y[i] != 10:
+          start = i
+          continue
+      if end == -1:
+        if Y[i] == 10:
+          end = i
+          break
+    start = max(0, start-random.randint(5,20))
+    end = min(Y.shape[0], end+random.randint(5,20))
+
+    X_fin = torch.from_numpy(X[start:end]).float()
+    Y_fin = torch.LongTensor(Y[start:end])
     
     for r in range(2):
       i = random.randint(0,len(self.X)-1) 
       info = self.X[i]
       file_path_root = info[0]
-      file_count = int(info[1])
       x_path = file_path_root + 'x.npy'
       y_path = file_path_root + 'y.npy'
       X = np.load(x_path)
       Y = np.load(y_path)
-      X_add = torch.from_numpy(X).float()
-      Y_add = torch.LongTensor(Y)
 
-      X_fin = torch.cat((X_fin, X_add), 0).to(device)
-      Y_fin = torch.cat((Y_fin, Y_add), 0).to(device)
+      start = -1
+      end = -1
+      for i in range(Y.shape[0]):
+        if start == -1:
+          if Y[i] != 10:
+            start = i
+            continue
+        if start != -1 and end == -1:
+          if Y[i] == 10:
+            end = i
+            break
+      start = max(0, start-random.randint(5,20))
+      end = min(Y.shape[0], end+random.randint(5,20))
+
+      X_add = torch.from_numpy(X[start:end]).float()
+      Y_add = torch.LongTensor(Y[start:end])
+
+      X_fin = torch.cat((X_fin, X_add), 0)
+      Y_fin = torch.cat((Y_fin, Y_add), 0)
+
+    X_fin = X_fin.to(device)
+    Y_fin = Y_fin.to(device)
 
     return (X_fin, Y_fin)
 
-with open('../input/data.json') as json_file:
+with open('../input/data_np.json') as json_file:
   data_original = json.load(json_file) # {0: [[root_direction_path, length], [...], }
   
 data_new = []
@@ -138,6 +167,7 @@ for epoch in range(num_epochs):
     optimizer.step()
 
     _, predicted = torch.max(Y_hat.data, 2)
+    predicted = predicted.unsqueeze(-1)
     correct = ((predicted == y).float()).sum().item()
     total = Y_hat.shape[1]
 
@@ -166,6 +196,7 @@ for epoch in range(num_epochs):
     x, y = data
     Y_hat, predictions = model(x)
     _, predicted = torch.max(Y_hat.data, 2)
+    predicted = predicted.unsqueeze(-1)
     correct = ((predicted == y).float()).sum().item()
     total = Y_hat.shape[1]
 
@@ -177,6 +208,9 @@ for epoch in range(num_epochs):
   val_loss.append(epoch_loss)
   val_accuracy.append(accuracy)
   print(f"Test \t epoch_loss: {epoch_loss}, accuracy: {accuracy}, count: {epoch_correct_count}")
+
+  torch.save(model.state_dict(), args['model'][:-4]+"_"+str(epoch)+".pth")
+
 
 # accuracy plots
 plt.figure(figsize=(10, 7))
