@@ -1,5 +1,5 @@
 # hihc-2020
-[Team 와플] Sign language recognition
+[Team 와플] Sign language recognition using multistage model
 
 ## Usage
 ### Training
