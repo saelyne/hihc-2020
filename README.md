@@ -1,5 +1,5 @@
 # hihc-2020
-[Team 와플] Sign language recognition using multistage model
+[Team 와플] Sign language recognition using [ms-tcn](https://github.com/yabufarha/ms-tcn)
 
 ## Usage
 ### Training
