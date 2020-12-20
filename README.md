@@ -1,5 +1,5 @@
 # hihc-2020
-Sign language recognition, Team Waffle
+[Team 와플] Sign language recognition
 
 ## Usage
 ### Training
