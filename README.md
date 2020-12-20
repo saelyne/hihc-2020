@@ -10,9 +10,9 @@
 
 2. run `slice_data_np.py`
 3. run `train_np.py`
-- USAGE: python train.py --model ../output/hand.pth
+- USAGE: `python train_np.py --model ../output/hand.pth`
 - The model and graph representing accuracy and loss will be saved in `output` folder
 
 ### Testing
 1. run `test.py` with `TEST_PATH` variable set to the path to your target video.
-- USAGE: python test.py --model ../output/hand.pth
+- USAGE: `python test.py --model ../output/hand.pth`
