@@ -1,5 +1,5 @@
 # hihc-2020
-Sign language recognition
+Sign language recognition, Team Waffle
 
 ## Usage
 ### Training
@@ -14,4 +14,4 @@ Sign language recognition
 
 ### Testing
 1. run `test.py` with `TEST_PATH` variable set to the path to your target video.
-- UAGE: python test.py --model ../output/hand.pth
+- USAGE: python test.py --model ../output/hand.pth
