@@ -9,7 +9,7 @@
 - Currently only using real data from `REAL_DATA_PATH`. Change `TARGET_DATA_PATH` to `SYN_DATA_PATH` if you want to train with synthesized vidoes.
 
 2. run `slice_data_np.py`
-3. run `train.py`
+3. run `train_np.py`
 - USAGE: python train.py --model ../output/hand.pth
 - The model and graph representing accuracy and loss will be saved in `output` folder
 
